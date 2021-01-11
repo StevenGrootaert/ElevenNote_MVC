@@ -14,7 +14,8 @@
 {
     <div class="alert alert-success fade in" role="alert">
         @* this was added in 7.02 -- the message will not appear b/c of the redirect to action in the controller - fix that ALSO this is in the Index View becuase after we submit the create button we go back to the index...  *@
-        @ViewBag.SaveResult
+        @*@ViewBag.SaveResult*@
+        @TempData["SaveResult"]
         <button type="button" class="close" data-dismiss="alert">
             <span>&times;</span>
         </button>
