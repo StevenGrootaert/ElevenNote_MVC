@@ -1,0 +1,17 @@
+﻿@model System.DateTimeOffset?
+
+<span>
+    @(Model.HasValue ? Model.Value.LocalDateTime.ToString("G") : "-")
+</span>
+
+@*
+    Go to ElevenNote.Web -> Views -> Shared
+    Create a new folder called DisplayTemplates
+    MVC will look for this folder to override the default format
+    Right click on the DisplayTemplates folder and click Add -> View
+    Fill it out like this (Blank), the View name should match the Data Type that we are using "DateTimeOffset""
+
+    Delete everything in the file and replace with above
+    "G" is the format choosen these a whole list here:
+    https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings
+*@

@@ -30,7 +30,7 @@ namespace ElevenNote.WebMVC.Controllers
             return View(); // we're returning the view model that serves the create interface to input the information used to actually create the note
         }
 
-        [HttpPost]
+        [HttpPost]  // Note/Create
         [ValidateAntiForgeryToken]
         public ActionResult Create(NoteCreate model)
         {
@@ -57,11 +57,81 @@ namespace ElevenNote.WebMVC.Controllers
             //return RedirectToAction("Index");
         }
 
+        // Note/Details/{id}
+        public ActionResult Details(int id) // no int?
+        {
+            var svc = CreateNoteService();  // svc is a local varaible. 
+            var model = svc.GetNoteById(id);
+
+            return View(model);
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var service = CreateNoteService();
+            var detail = service.GetNoteById(id);
+            var model =
+                new NoteEdit
+                {
+                    NoteId = detail.NoteId,
+                    Title = detail.Title,
+                    Content = detail.Content
+                };
+            return View(model);
+        }
+
+        [HttpPost] // Note/Edit/{id}
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, NoteEdit model)
+        {
+            if (!ModelState.IsValid) return View(model);
+            if (model.NoteId != id)
+            {
+                ModelState.AddModelError("", "Note ID Missmatch");
+                return View(model);
+            }
+
+            var service = CreateNoteService();  // so if model is valid and the IDs match create note service 
+
+            if (service.UpdateNote(model))
+            {
+                TempData["SaveResult"] = "your note was updated"; // ooo this save result is nice in the index. Anytime anything is saved (OR updated) the msg pops up. 
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", "Your note could not be updated.");
+            return View(model);     // when do I use the blank and when do I pass in the model.. I just updated this from before with View(model)
+        }
+
+        [ActionName("Delete")] // do other things need action names?? 
+        public ActionResult Delete(int id) // when adding a view we're using the detial model class becuase I think we need to delete all the information that could have been detailed..
+        {
+            var svc = CreateNoteService();  // could these 2 lines that repeat over and over again be refacroted futher?  
+            var model = svc.GetNoteById(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeletePost(int id)
+        {
+            var service = CreateNoteService();
+            service.DeleteNote(id);
+            TempData["SaveResult"] = "Your note was DELETED.";
+            return RedirectToAction("Index");
+        }
+
+
+        // Helper Methods (used to refactor) 
         private NoteService CreateNoteService()
         {
             var userId = Guid.Parse(User.Identity.GetUserId());
             var service = new NoteService(userId);
             return service;
         }
+
+
     }
 }

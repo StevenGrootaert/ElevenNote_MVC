@@ -34,7 +34,7 @@
         </th>
         <th></th>
     </tr>
-
+    <!-- look at the  App_Start -> RouteConfig.cs. file for some notes about how this app bulds the URL slug    -->
     @foreach (var item in Model)
     {
         <tr>
@@ -48,9 +48,9 @@
                 @Html.DisplayFor(modelItem => item.CreatedUtc)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Edit", "Edit", new { id = item.NoteId }) | <!-- chnaged this in step 8.02 this is so that we communicate with the NoteController to edit (deatails/delete) the correct note-->
+                @Html.ActionLink("Details", "Details", new { id = item.NoteId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.NoteId })
             </td>
         </tr>
     }
