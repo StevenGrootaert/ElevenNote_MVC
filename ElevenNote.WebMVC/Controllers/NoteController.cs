@@ -41,7 +41,7 @@ namespace ElevenNote.WebMVC.Controllers
             if (service.CreateNote(model))
             {
                 //ViewBag.SaveResult = "Your note ws created";
-                TempData["SaveResult"] = "Your note was created."; // changed to a TempData in 7.02 TempData removes information after it's been accessed
+                TempData["SaveResult"] = " Your note was created."; // changed to a TempData in 7.02 TempData removes information after it's been accessed
                 return RedirectToAction("Index");
             };
             ModelState.AddModelError("", "Note could not be created.");
@@ -95,7 +95,7 @@ namespace ElevenNote.WebMVC.Controllers
 
             if (service.UpdateNote(model))
             {
-                TempData["SaveResult"] = "your note was updated"; // ooo this save result is nice in the index. Anytime anything is saved (OR updated) the msg pops up. 
+                TempData["SaveResult"] = " Your note was updated."; // ooo this save result is nice in the index. Anytime anything is saved (OR updated) the msg pops up. 
                 return RedirectToAction("Index");
             }
 
@@ -119,7 +119,7 @@ namespace ElevenNote.WebMVC.Controllers
         {
             var service = CreateNoteService();
             service.DeleteNote(id);
-            TempData["SaveResult"] = "Your note was DELETED.";
+            TempData["SaveResult"] = " Your note was DELETED.";
             return RedirectToAction("Index");
         }
 
